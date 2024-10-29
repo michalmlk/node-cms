@@ -1,12 +1,15 @@
-<div class="container login-page">
-    <form class="card p-4">
+<div class="container page">
+    <form class="card p-4 user-form" method="POST" action="/signup">
         <div class="mb-3">
-            <label for="login" class="form-label">Login</label>
-            <input type="text" class="form-control" id="login" aria-describedby="login" name="login">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control <%- errors?.email ? 'is-invalid' : '' %>" id="email"
+                   aria-describedby="email" value="<%- form.email %>"
+                   name="email"/>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" class="form-control <%- errors?.password ? 'is-invalid' : '' %>" id="password"
+                   value="<%- form.password %>" name="password"/>
         </div>
         <div class="mb-3">
             <label for="avatar" class="form-label">Avatar</label>
@@ -16,5 +19,12 @@
             <button type="submit" class="btn btn-primary">Sign up</button>
             <p class="text-black small mb-0 text-center">Already have an account? <a href="/login">Log in</a></p>
         </div>
+        <% if (errors && Object.keys(errors).length > 0) { %>
+            <div class="alert alert-danger mt-4">
+                <% for (const key in errors) { %>
+                    <li><%= errors[key].message %></li>
+                <% } %>
+            </div>
+        <% } %>
     </form>
 </div>

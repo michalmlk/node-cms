@@ -1,24 +1,21 @@
 const express = require('express');
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const connectToDatabase = require('./config/database');
-const authenticationRoutes = require('./routes/authentication');
-const postRoutes = require('./routes/post');
-const userRoutes = require('./routes/user');
 const path = require("node:path");
 const ejsLayouts = require('express-ejs-layouts');
 const PagesController = require("./controllers/pages-controller");
+const PostController = require("./controllers/post-controller");
+const UserController = require("./controllers/user-controller");
 
 const app = express();
 
 connectToDatabase();
 
-app.use(bodyParser.json());
+app.use(express.urlencoded({
+    extended: true,
+}));
 app.use(cors());
 app.use(ejsLayouts);
-app.use('/api/auth', authenticationRoutes);
-app.use('/api/post', postRoutes)
-app.use('/api/user', userRoutes)
 app.use(express.static(path.join(__dirname, 'public')));
 
 //view engine
@@ -31,6 +28,10 @@ app.get('/', PagesController.renderHomepage);
 app.get('/login', PagesController.renderLoginPage);
 
 app.get('/signup', PagesController.renderSignUpPage);
+app.post('/signup', UserController.createUser);
+
+app.get('/create-post', PagesController.renderCreatePostPage);
+app.post('/create-post', PostController.createPost);
 
 app.get('*', PagesController.renderNotFoundPage);
 

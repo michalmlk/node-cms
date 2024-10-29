@@ -4,12 +4,15 @@ const bcrypt = require('bcryptjs');
 const schema = new mongoose.Schema({
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'Email is required'],
+        unique: true,
+        trim: true,
+        lowercase: true
     },
     password: {
         type: String,
-        required: true,
+        required: [true, 'Password is required'],
+        minlength: [6, 'Password must be at least 6 characters'],
     }
 })
 
@@ -21,6 +24,13 @@ schema.pre('save', async function (next) {
         this.password = await bcrypt.hash(this.password, salt);
         next();
     }
+})
+
+schema.post('save', (error, doc, next) => {
+    if (error.code === 11000) {
+        error.errors = {email: {message: 'Email already exist '}}
+    }
+    next(error)
 })
 
 const User = mongoose.model('User', schema);

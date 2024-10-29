@@ -7,10 +7,20 @@ body {
     padding: 0;
     box-sizing: border-box;
 
-    .login-page {
+    .page {
         height: calc(100vh - 100px);
         display: flex;
         justify-content: center;
         align-items: center;
+
+        &.create-post-page {
+            height: calc(100vh - 220px);
+        }
+    }
+
+    .user-form,
+    .create-post-form {
+        width: 100%;
+        max-width: 540px;
     }
 }
