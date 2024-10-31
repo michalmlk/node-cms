@@ -1,16 +1,10 @@
 const Post = require('../models/post');
 
 class PagesController {
-
-    async renderHomepage(req, res) {
-        const allPosts = await Post.find({})
-
-        res.render('pages/home', {
-            title: 'Home', layout: 'layouts/main', data: allPosts
-        })
-    }
-
     renderLoginPage(req, res) {
+        if (res.locals.user) {
+            res.redirect('/home');
+        }
         res.render('pages/login', {
             title: 'Node-cms login', layout: 'layouts/unauthorized', form: {
                 email: '',
@@ -25,6 +19,14 @@ class PagesController {
                 email: '', password: ''
             },
             errors: {}
+        })
+    }
+
+    async renderHomepage(req, res) {
+        const allPosts = await Post.find({})
+
+        res.render('pages/home', {
+            title: 'Home', layout: 'layouts/main', data: allPosts
         })
     }
 

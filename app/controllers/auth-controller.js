@@ -6,22 +6,14 @@ class AuthController {
             const {email, password} = req.body;
             const user = await User.findOne({email});
             if (!user) {
-                res.render('pages/login', {
-                    layout: 'layouts/unauthorized',
-                    form: req.body,
-                    hasError: true
-                })
+                throw new Error();
             } else {
                 const isValidPassword = user.comparePassword(password);
                 if (!isValidPassword) {
-                    res.render('pages/login', {
-                        layout: 'layouts/unauthorized',
-                        form: req.body,
-                        hasError: true
-                    })
-                } else {
-                    res.status(201).redirect('/');
+                    throw new Error();
                 }
+                req.session.user = req.body;
+                res.status(201).redirect('/home');
             }
         } catch (e) {
             res.render('pages/login', {
@@ -30,6 +22,11 @@ class AuthController {
                 hasError: true
             })
         }
+    }
+
+    logout(req, res) {
+        req.session.destroy()
+        res.redirect('/login');
     }
 }
 

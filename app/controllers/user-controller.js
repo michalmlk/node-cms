@@ -9,7 +9,7 @@ class UserController {
                 password: req.body.password,
             });
             await user.save();
-            res.status(201).redirect('/');
+            res.status(201).redirect('/home');
             // }
         } catch (e) {
             res.render('pages/signup', {

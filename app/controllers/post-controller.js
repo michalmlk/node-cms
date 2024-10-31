@@ -18,7 +18,7 @@ class PostController {
                 creatorId: '671e92eb13cd87fb4970c296',
             });
             await newPost.save()
-            res.status(201).redirect('/');
+            res.status(201).redirect('/home');
         } catch (e) {
             res.render('pages/create-post', {
                 layout: 'layouts/main',
