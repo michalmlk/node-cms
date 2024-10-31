@@ -14,6 +14,12 @@ const schema = new mongoose.Schema({
         required: [true, 'Password is required'],
         minlength: [6, 'Password must be at least 6 characters'],
     }
+}, {
+    methods: {
+        comparePassword: function(password) {
+            return bcrypt.compareSync(password, this.password);
+        }
+    }
 })
 
 schema.pre('save', async function (next) {

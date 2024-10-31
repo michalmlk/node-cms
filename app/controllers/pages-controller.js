@@ -15,7 +15,7 @@ class PagesController {
             title: 'Node-cms login', layout: 'layouts/unauthorized', form: {
                 email: '',
                 password: ''
-            }, errors: {}
+            }, hasError: false
         })
     }
 

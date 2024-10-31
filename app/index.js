@@ -6,6 +6,7 @@ const ejsLayouts = require('express-ejs-layouts');
 const PagesController = require("./controllers/pages-controller");
 const PostController = require("./controllers/post-controller");
 const UserController = require("./controllers/user-controller");
+const AuthController = require("./controllers/auth-controller");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.set('views', path.join(__dirname, './views'));
 app.get('/', PagesController.renderHomepage);
 
 app.get('/login', PagesController.renderLoginPage);
+app.post('/login', AuthController.login);
 
 app.get('/signup', PagesController.renderSignUpPage);
 app.post('/signup', UserController.createUser);
