@@ -12,14 +12,12 @@ class AuthController {
                 if (!isValidPassword) {
                     throw new Error();
                 }
-                req.session.user = req.body;
+                req.session.user = user;
                 res.status(201).redirect('/home');
             }
         } catch (e) {
             res.render('pages/login', {
-                layout: 'layouts/unauthorized',
-                form: req.body,
-                hasError: true
+                layout: 'layouts/unauthorized', form: req.body, hasError: true
             })
         }
     }

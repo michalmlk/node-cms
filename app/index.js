@@ -11,10 +11,11 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const userMiddleWare = require('./middleware/user-mw');
 const authMiddleware = require("./middleware/auth-mw");
-
 const app = express();
+const multer = require('multer');
 
 connectToDatabase();
+const upload = multer();
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -48,7 +49,7 @@ app.post('/login', AuthController.login);
 app.get('/logout', AuthController.logout);
 
 app.get('/signup', PagesController.renderSignUpPage);
-app.post('/signup', UserController.createUser);
+app.post('/signup', upload.single('avatar'), UserController.createUser);
 
 app.get('/create-post', PagesController.renderCreatePostPage);
 app.post('/create-post', PostController.createPost);

@@ -13,10 +13,14 @@ const schema = new mongoose.Schema({
         type: String,
         required: [true, 'Password is required'],
         minlength: [6, 'Password must be at least 6 characters'],
+    },
+    avatar: {
+        type: String,
+        required: [true, 'Avatar is required'],
     }
 }, {
     methods: {
-        comparePassword: function(password) {
+        comparePassword: function (password) {
             return bcrypt.compareSync(password, this.password);
         }
     }
@@ -39,5 +43,5 @@ schema.post('save', (error, doc, next) => {
     next(error)
 })
 
-const User = mongoose.model('User', schema);
+const User = mongoose.models.User || mongoose.model('User', schema);
 module.exports = User;
