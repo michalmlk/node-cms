@@ -33,7 +33,7 @@ class PagesController {
         }))
 
         res.render('pages/home', {
-            title: 'Home', layout: 'layouts/main', data: data, users: users
+            title: 'Home', layout: 'layouts/main', data: data, currentUser: req.session.user
         })
     }
 

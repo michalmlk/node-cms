@@ -2,11 +2,33 @@
     <% data.forEach(item => { %>
         <div class="card">
             <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex gap-3 align-items-center">
+                        <img src="data:image/png;base64,<%= item.user.avatar %>" alt="Avatar" class="rounded-circle"
+                             width="30"
+                             height="30">
+                        <p class="mb-0"><%= item.user.email %></p>
+                    </div>
+                    <% if (currentUser.email === item.user.email) { %>
+                    <div class="d-flex gap-2 align-items-center">
+                        <form method="POST" action="/edit-post">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+                                    title="Edit">
+                                <i class="bi bi-pen"></i>
+                            </button>
+                        </form>
+                        <form method="POST" action="/delete-post/<%= item._id %>">
+                            <button type="submit" class="btn btn-outline-danger" data-bs-toggle="tooltip"
+                                    title="Delete">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <% } %>
+                </div>
                 <h4 class="card-title">
                     <%- item.title %>
                 </h4>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                <div> <%- item.user?.email || 'unknown user' %></div>
                 <p class="card-text"><%- item.content %></p>
                 <a href="#" class="card-link">Card link</a>
                 <a href="#" class="card-link">Another link</a>

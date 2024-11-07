@@ -18,9 +18,7 @@ connectToDatabase();
 const upload = multer();
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
-    cookie: {
+    secret: process.env.SESSION_SECRET, saveUninitialized: true, cookie: {
         maxAge: 1000 * 60 * 60 * 24, //1 day
         resave: true,
     }
@@ -53,6 +51,8 @@ app.post('/signup', upload.single('avatar'), UserController.createUser);
 
 app.get('/create-post', PagesController.renderCreatePostPage);
 app.post('/create-post', PostController.createPost);
+
+app.post('/delete-post/:id', PostController.deletePost);
 
 app.get('*', PagesController.renderNotFoundPage);
 
