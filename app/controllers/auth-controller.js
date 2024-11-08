@@ -13,7 +13,7 @@ class AuthController {
                     throw new Error();
                 }
                 req.session.user = user;
-                res.status(201).redirect('/home');
+                res.redirect('/home');
             }
         } catch (e) {
             res.render('pages/login', {

@@ -8,7 +8,7 @@ class PostController {
                 ...req.body, creatorId: req.session.user._id,
             });
             await newPost.save()
-            res.status(201).redirect('/home');
+            res.redirect('/home');
         } catch (e) {
             res.render('pages/create-post', {
                 layout: 'layouts/main', form: req.body, errors: Object.values(e.errors),

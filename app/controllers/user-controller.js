@@ -8,7 +8,6 @@ class UserController {
             let avatarBase64 = null;
 
             if (req.file) {
-                console.log('file')
                 avatarBase64 = req.file.buffer.toString("base64");
             }
 
@@ -19,7 +18,7 @@ class UserController {
             });
 
             await user.save();
-            res.status(201).redirect('/home');
+            res.redirect('/home');
         } catch (e) {
             res.render('pages/signup', {
                 layout: 'layouts/unauthorized',

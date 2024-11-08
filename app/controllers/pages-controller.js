@@ -5,12 +5,13 @@ class PagesController {
     renderLoginPage(req, res) {
         if (res.locals.user) {
             res.redirect('/home');
+        } else {
+            res.render('pages/login', {
+                title: 'Node-cms login', layout: 'layouts/unauthorized', form: {
+                    email: '', password: ''
+                }, hasError: false
+            })
         }
-        res.render('pages/login', {
-            title: 'Node-cms login', layout: 'layouts/unauthorized', form: {
-                email: '', password: ''
-            }, hasError: false
-        })
     }
 
     renderSignUpPage(req, res) {
@@ -23,10 +24,7 @@ class PagesController {
 
     async renderHomepage(req, res) {
         const allPosts = await Post.find({})
-        const creatorIds = allPosts.map(post => post.creatorId);
-
         const users = await User.find({})
-
         const data = allPosts.map((post) => ({
             ...post._doc,
             user: users.find(u => u._id.toString() === post.creatorId)
