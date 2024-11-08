@@ -11,7 +11,7 @@ class PostController {
             res.redirect('/home');
         } catch (e) {
             res.render('pages/create-post', {
-                layout: 'layouts/main', form: req.body, errors: Object.values(e.errors),
+                layout: 'layouts/main', form: req.body, errors: e.errors || {},
             })
         }
     }
@@ -25,6 +25,32 @@ class PostController {
             }
         } catch (e) {
             throw e
+        }
+    }
+
+    async editPost(req, res) {
+        try {
+            const post = await Post.findOne({_id: req.params.id});
+            if (post.content !== req.body.content || post.title !== req.body.title) {
+                post.content = req.body.content;
+                post.title = req.body.title;
+                await post.save();
+                res.redirect('/home');
+            } else {
+                res.render('pages/edit-post', {
+                    layout: 'layouts/main',
+                    form: req.body,
+                    errors: {form: {message: 'Nothing was edited'}},
+                    postId: req.params.id
+                })
+            }
+        } catch (e) {
+            res.render('pages/edit-post', {
+                layout: 'layouts/main',
+                form: req.body,
+                errors: Object.values(e.errors),
+                postId: req.params.id
+            })
         }
     }
 }

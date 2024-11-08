@@ -52,6 +52,9 @@ app.post('/signup', upload.single('avatar'), UserController.createUser);
 app.get('/create-post', PagesController.renderCreatePostPage);
 app.post('/create-post', PostController.createPost);
 
+app.get('/edit-post/:id', PagesController.renderEditPostPage);
+app.post('/edit-post/:id', PostController.editPost);
+
 app.post('/delete-post/:id', PostController.deletePost);
 
 app.get('*', PagesController.renderNotFoundPage);

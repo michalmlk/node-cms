@@ -1,17 +1,14 @@
 const Post = require('../models/post');
 const User = require('../models/user');
+const {ObjectId} = require('mongoose').Types;
 
 class PagesController {
     renderLoginPage(req, res) {
-        if (res.locals.user) {
-            res.redirect('/home');
-        } else {
-            res.render('pages/login', {
-                title: 'Node-cms login', layout: 'layouts/unauthorized', form: {
-                    email: '', password: ''
-                }, hasError: false
-            })
-        }
+        res.render('pages/login', {
+            title: 'Node-cms login', layout: 'layouts/unauthorized', form: {
+                email: '', password: ''
+            }, hasError: false
+        })
     }
 
     renderSignUpPage(req, res) {
@@ -45,6 +42,19 @@ class PagesController {
         res.render('pages/create-post', {
             title: 'Create post', layout: 'layouts/main', errors: [], form: req.body
         })
+    }
+
+    async renderEditPostPage(req, res) {
+        const {id} = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            res.redirect('/home');
+        } else {
+            const post = await Post.findById(id);
+            res.render('pages/edit-post', {
+                title: 'Edit post', layout: 'layouts/main', errors: {}, form: post, postId: id
+            })
+        }
     }
 }
 

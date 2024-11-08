@@ -11,12 +11,11 @@
                     </div>
                     <% if (currentUser && currentUser.email === item.user.email) { %>
                         <div class="d-flex gap-2 align-items-center">
-                            <form method="POST" action="/edit-post">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
-                                        title="Edit">
-                                    <i class="bi bi-pen"></i>
-                                </button>
-                            </form>
+                            <a href="/edit-post/<%= item._id %>" class="btn btn-outline-secondary"
+                               data-bs-toggle="tooltip"
+                               title="Edit">
+                                <i class="bi bi-pen"></i>
+                            </a>
                             <form method="POST" action="/delete-post/<%= item._id %>">
                                 <button type="submit" class="btn btn-outline-danger" data-bs-toggle="tooltip"
                                         title="Delete">
@@ -30,8 +29,6 @@
                     <%- item.title %>
                 </h4>
                 <p class="card-text"><%- item.content %></p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
             </div>
         </div>
     <% }) %>
